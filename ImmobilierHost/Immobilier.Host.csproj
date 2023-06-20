@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>annotations</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\Immobilier.DataAccess\Immobilier.DataAccess.csproj" />
+    <ProjectReference Include="..\Domain\Immobilier.Domain\Immobilier.Domain.csproj" />
+    <ProjectReference Include="..\Immobilier.Interfaces\Immobilier.Interfaces.csproj" />
+    <ProjectReference Include="..\Services\Immobilier.Services\Immobilier.Services.csproj" />
+  </ItemGroup>
+
+</Project>
