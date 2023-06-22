@@ -19,10 +19,9 @@ namespace Immobilier.DataAccess.Repository
 
         public ulong CreateUser(User user)
         {
-            var newUser = new User { Name = user.Name, Age = user.Age };
-            _context.Users.Add(newUser);
+            var newUser = _context.Users.Add(user).Entity;
             _context.SaveChanges();
-            return newUser.UserId;
+            return newUser.Id;
         }
 
         public async Task<IEnumerable<User>> GetAllUsers()
@@ -32,12 +31,12 @@ namespace Immobilier.DataAccess.Repository
 
         public User? GetUserById(ulong userId)
         {
-            return _context.Users.FirstOrDefault(u => u.UserId == userId);
+            return _context.Users.FirstOrDefault(u => u.Id == userId);
         }
 
         public async Task<User?> UpdateUser(User user)
         {
-            var userToEdit = await _context.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
+            var userToEdit = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
             if (userToEdit == null) return null;
 
             userToEdit.Name = user.Name;

@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public string Address { get; set; }
-        //public ulong OwnerId { get; set; }
+        public ulong IdOwner { get; set; }
     }
 }

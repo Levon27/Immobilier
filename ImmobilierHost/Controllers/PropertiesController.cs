@@ -1,11 +1,8 @@
-﻿using Immobilier.Host.Config;
+﻿using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
 using Immobilier.Interfaces.Requests;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
-using Immobilier.DataAccess.Config;
 
 namespace Immobilier.Host.Controllers
 {
@@ -13,51 +10,48 @@ namespace Immobilier.Host.Controllers
     [ApiController]
     public class PropertiesController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IPropertyRepository _propertyRepository;
 
-        public PropertiesController(AppDbContext context)
+        public PropertiesController(IPropertyRepository propertyRepository)
         {
-            _context = context;
+            _propertyRepository = propertyRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _context.Properties.ToArrayAsync();
+            var result = await _propertyRepository.GetAll();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(ulong id)
+        public async Task<IActionResult> GetById(ulong id)
         {
-            var user = _context.Properties.FirstOrDefault(p => p.PropertyId == id);
+            var user = await _propertyRepository.GetById(id);
             if (user == null) return NotFound();
 
             return Ok(user);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreatePropertyRequest request)
+        public IActionResult Post(CreatePropertyRequest request)
         {
             if (request == null) return BadRequest();
-            var newProperty = new Property { Address = request.Address, Name = request.Name };
-            _context.Properties.Add(newProperty);
-            _context.SaveChanges();
+            _propertyRepository.CreateProperty(new Property(request.Name, request.Address, request.IdOwner));
+ 
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Property property, ulong id)
+        [HttpPut()]
+        public async Task<IActionResult> Put(Property property)
         {
             if (property == null) return BadRequest();
 
-            var propertyToEdit = await _context.Properties.FirstOrDefaultAsync(p => p.PropertyId == id);
+            var propertyToEdit = await _propertyRepository.GetById(property.Id);
             if (propertyToEdit == null) return NotFound();
 
             propertyToEdit.Name = property.Name;
             propertyToEdit.Address = property.Address;
-
-            _context.SaveChanges();
 
             return Ok();
         }

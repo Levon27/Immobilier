@@ -1,22 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Immobilier.Domain
 {
     public class User
     {
+        public User(string name, string email, int age)
+        {
+            Name = name;
+            Email = email;
+            Age = age;
+        }
+
         [Key]
-        public ulong UserId { get; set; }
+        public ulong Id { get; set; }
+
         [Column("NAME")]
         public string Name { get; set; }
-        [Column("age")]
+
+        [Column("EMAIL")] 
+        public string Email { get; set; }
+
+        [Column("AGE")]
         public int Age { get; set; }
-        //public IEnumerable<Property> Properties { get; set; }
+
+        public IEnumerable<Property>? Properties { get; set; }
     }
 }
 

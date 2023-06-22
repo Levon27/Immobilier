@@ -34,19 +34,19 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateUserRequest request)
+        public IActionResult Post(CreateUserRequest request)
         {
             if (request == null) return BadRequest();
-            var id = _userRepository.CreateUser(new User { Age = request.Age, Name = request.UserName });
+            var id = _userRepository.CreateUser(new User(request.UserName, request.Email, request.Age));
             return Ok(new { Id = id });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] User user, ulong id)
+        public async Task<IActionResult> Put(User user)
         {
             if (user == null) return BadRequest();
             var updatedUser = await _userRepository.UpdateUser(user);
-            return Ok(new { Id = updatedUser.UserId });
+            return Ok(new { Id = updatedUser.Id });
         }
 
         /* dados teste 

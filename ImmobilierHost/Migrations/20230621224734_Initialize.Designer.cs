@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Immobilier.Host.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230101204939_Initialize")]
+    [Migration("20230621224734_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace Immobilier.Host.Migrations
 
             modelBuilder.Entity("Immobilier.Domain.Property", b =>
                 {
-                    b.Property<ulong>("PropertyId")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint unsigned");
 
@@ -31,34 +31,61 @@ namespace Immobilier.Host.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("ADDRESS");
 
+                    b.Property<ulong>("IdOwner")
+                        .HasColumnType("bigint unsigned")
+                        .HasColumnName("ID_OWNER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("NAME");
 
-                    b.HasKey("PropertyId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdOwner");
 
                     b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("Immobilier.Domain.User", b =>
                 {
-                    b.Property<ulong>("UserId")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint unsigned");
 
                     b.Property<int>("Age")
                         .HasColumnType("int")
-                        .HasColumnName("age");
+                        .HasColumnName("AGE");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("EMAIL");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("NAME");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Immobilier.Domain.Property", b =>
+                {
+                    b.HasOne("Immobilier.Domain.User", "Owner")
+                        .WithMany("Properties")
+                        .HasForeignKey("IdOwner")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Immobilier.Domain.User", b =>
+                {
+                    b.Navigation("Properties");
                 });
 #pragma warning restore 612, 618
         }

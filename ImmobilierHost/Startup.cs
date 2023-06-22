@@ -26,7 +26,10 @@ namespace ImmobilierHost
         {
 
             services.AddControllers();
+
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImmobilierHost", Version = "v1" });
@@ -37,8 +40,8 @@ namespace ImmobilierHost
             services.AddDbContextPool<AppDbContext>(options => 
             {
                 options.UseMySql(connection, serverVersion, b => b.MigrationsAssembly("Immobilier.Host"));
-            }
-            );
+            });
+
 
 
         }
