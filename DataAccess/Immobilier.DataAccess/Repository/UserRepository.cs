@@ -29,9 +29,9 @@ namespace Immobilier.DataAccess.Repository
             return await _context.Users.ToArrayAsync();
         }
 
-        public User? GetUserById(ulong userId)
+        public async Task<User?> GetUserById(ulong userId)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == userId);
+            return await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
         }
 
         public async Task<User?> UpdateUser(User user)
@@ -41,7 +41,6 @@ namespace Immobilier.DataAccess.Repository
 
             userToEdit.Name = user.Name;
             userToEdit.Age = user.Age;
-            //userToEdit.Properties = user.Properties;
             _context.SaveChanges();
 
             return userToEdit;

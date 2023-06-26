@@ -1,14 +1,19 @@
+using FluentValidation;
+using Immobilier.DataAccess.Config;
+using Immobilier.DataAccess.Repository;
+using Immobilier.DataAccess.Repository.Contracts;
+using Immobilier.Domain;
+using Immobilier.Domain.Validators;
+using Immobilier.Services;
+using Immobilier.Services.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
-using Immobilier.DataAccess.Config;
-using Immobilier.DataAccess.Repository.Contracts;
-using Immobilier.DataAccess.Repository;
 
 namespace ImmobilierHost
 {
@@ -28,21 +33,27 @@ namespace ImmobilierHost
             services.AddControllers();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImmobilierHost", Version = "v1" });
-            });
+            #region Validators
+            services.AddScoped<IValidator<User>, UserValidator>();
 
+            #endregion
+
+            #region Database
             var connection = Configuration["MySql:MySqlConnectionString"];
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
             services.AddDbContextPool<AppDbContext>(options => 
             {
                 options.UseMySql(connection, serverVersion, b => b.MigrationsAssembly("Immobilier.Host"));
             });
+            #endregion
 
-
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImmobilierHost", Version = "v1" });
+            });
 
         }
 

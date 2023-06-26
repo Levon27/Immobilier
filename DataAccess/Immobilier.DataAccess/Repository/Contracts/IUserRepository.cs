@@ -10,7 +10,7 @@ namespace Immobilier.DataAccess.Repository.Contracts
     public interface IUserRepository
     {
         ulong CreateUser(User newUser);
-        User? GetUserById(ulong userId);
+        Task<User?> GetUserById(ulong userId);
         Task<IEnumerable<User>> GetAllUsers();
         Task<User?> UpdateUser(User user);
     }
