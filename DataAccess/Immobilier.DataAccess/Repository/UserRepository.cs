@@ -3,7 +3,6 @@ using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Immobilier.DataAccess.Repository
@@ -26,12 +25,17 @@ namespace Immobilier.DataAccess.Repository
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return await _context.Users.ToArrayAsync();
+            return await _context.Users.AsNoTracking().ToArrayAsync();
         }
 
         public async Task<User?> GetUserById(ulong userId)
         {
-            return await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
+            return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == userId);
+        }
+
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User?> UpdateUser(User user)

@@ -1,7 +1,9 @@
-﻿using Immobilier.DataAccess.Repository.Contracts;
+﻿using FluentValidation;
+using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
 using Immobilier.Interfaces.Requests;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Immobilier.Host.Controllers
@@ -11,10 +13,12 @@ namespace Immobilier.Host.Controllers
     public class PropertiesController : ControllerBase
     {
         private readonly IPropertyRepository _propertyRepository;
+        private readonly IValidator<Property> _propertyValidator;
 
-        public PropertiesController(IPropertyRepository propertyRepository)
+        public PropertiesController(IPropertyRepository propertyRepository, IValidator<Property> propertyValidator)
         {
             _propertyRepository = propertyRepository;
+            _propertyValidator = propertyValidator;
         }
 
         [HttpGet]
@@ -34,10 +38,13 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreatePropertyRequest request)
+        public IActionResult Post(Property property)
         {
-            if (request == null) return BadRequest();
-            _propertyRepository.CreateProperty(new Property(request.Name, request.Address, request.IdOwner));
+            if (property == null) return BadRequest();
+            var result = _propertyValidator.Validate(property);
+            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+
+            _propertyRepository.CreateProperty(new Property(property.Name, property.Address, property.IdOwner));
  
             return Ok();
         }
@@ -46,6 +53,8 @@ namespace Immobilier.Host.Controllers
         public async Task<IActionResult> Put(Property property)
         {
             if (property == null) return BadRequest();
+            var result = _propertyValidator.Validate(property);
+            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             var propertyToEdit = await _propertyRepository.GetById(property.Id);
             if (propertyToEdit == null) return NotFound();

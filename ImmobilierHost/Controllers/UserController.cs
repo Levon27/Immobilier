@@ -1,7 +1,8 @@
-﻿using Immobilier.DataAccess.Repository.Contracts;
+﻿using FluentValidation;
+using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
-using Immobilier.Interfaces.Requests;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Immobilier.Host.Controllers
@@ -11,10 +12,12 @@ namespace Immobilier.Host.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IValidator<User> _userValidator;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IValidator<User> createUserValidator)
         {
             _userRepository = userRepository;
+            _userValidator = createUserValidator;
         }
 
         [HttpGet]
@@ -34,10 +37,13 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreateUserRequest request)
+        public IActionResult Post(User user)
         {
-            if (request == null) return BadRequest();
-            var id = _userRepository.CreateUser(new User(request.UserName, request.Email, request.Age));
+            if (user == null) return BadRequest();
+            var result = _userValidator.Validate(user);
+            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+
+            var id = _userRepository.CreateUser(user);
             return Ok(new { Id = id });
         }
 
@@ -45,14 +51,11 @@ namespace Immobilier.Host.Controllers
         public async Task<IActionResult> Put(User user)
         {
             if (user == null) return BadRequest();
-            var updatedUser = await _userRepository.UpdateUser(user);
-            return Ok(new { Id = updatedUser.Id });
-        }
+            var result = _userValidator.Validate(user);
+            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
-        /* dados teste 
-            //var userTeste = new User { Age = 25, Name = "Jonas teste", Properties = { }, UserId = 123 };
-            //_context.Users.Add(userTeste);
-            //_context.SaveChanges();
-        */
+            var updatedUser = await _userRepository.UpdateUser(user);
+            return Ok(new { updatedUser.Id });
+        }
     }
 }

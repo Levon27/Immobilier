@@ -38,7 +38,7 @@ namespace ImmobilierHost
 
             #region Validators
             services.AddScoped<IValidator<User>, UserValidator>();
-
+            services.AddScoped<IValidator<Property>, PropertyValidator>();
             #endregion
 
             #region Database

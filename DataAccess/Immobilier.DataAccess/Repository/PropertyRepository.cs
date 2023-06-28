@@ -18,12 +18,12 @@ namespace Immobilier.DataAccess.Repository
 
         public async Task<IEnumerable<Property>> GetAll()
         {
-            return await _context.Properties.ToArrayAsync();
+            return await _context.Properties.AsNoTracking().ToArrayAsync();
         }
 
         public async Task<Property?> GetById(ulong id)
         {
-            return await _context.Properties.SingleOrDefaultAsync(p => p.Id == id);
+            return await _context.Properties.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public ulong CreateProperty(Property property)
