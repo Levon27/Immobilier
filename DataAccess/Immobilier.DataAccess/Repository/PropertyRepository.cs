@@ -32,5 +32,13 @@ namespace Immobilier.DataAccess.Repository
             _context.SaveChanges();
             return created.Id;
         }
+
+        public async Task<ulong> DeleteProperty(ulong id)
+        {
+            var toRemove = await _context.Properties.SingleOrDefaultAsync(p => p.Id == id);
+            _context.Properties.Remove(toRemove);
+            _context.SaveChanges();
+            return id;
+        }
     }
 }

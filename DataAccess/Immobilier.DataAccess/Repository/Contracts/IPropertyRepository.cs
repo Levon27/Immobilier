@@ -9,5 +9,6 @@ namespace Immobilier.DataAccess.Repository.Contracts
         Task<IEnumerable<Property>> GetAll();
         Task<Property?> GetById(ulong id);
         ulong CreateProperty(Property property);
+        Task<ulong> DeleteProperty(ulong id);
     }
 }
