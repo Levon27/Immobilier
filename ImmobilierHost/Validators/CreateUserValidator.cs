@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
+using Immobilier.Host.Requests;
 using Imobbilier.Core;
 
-namespace Immobilier.Domain.Validators
+namespace Immobilier.Host.Validators
 {
-    public class UserValidator : AbstractValidator<User>
+    public class CreateUserValidator : AbstractValidator<CreateUserRequest>
     {
-        public UserValidator() 
+        public CreateUserValidator()
         {
             RuleFor(x => x.Age).GreaterThanOrEqualTo(18);
             RuleFor(x => x.Name).MinimumLength(2);

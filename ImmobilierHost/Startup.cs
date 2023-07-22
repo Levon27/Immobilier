@@ -4,16 +4,21 @@ using Immobilier.DataAccess.Repository;
 using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
 using Immobilier.Domain.Validators;
-using Immobilier.Services;
-using Immobilier.Services.Contracts;
+using Immobilier.Host.Requests;
+using Immobilier.Host.Validators;
+using Immobilier.Infrastructure.Auth;
+using Immobilier.Infrastructure.Auth.Contracts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Text;
 
 namespace ImmobilierHost
 {
@@ -32,22 +37,58 @@ namespace ImmobilierHost
 
             services.AddControllers();
 
+            #region Services and Repos
+
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
 
+            #endregion
+
+            #region Auth
+
+            var authKey = Configuration.GetValue<string>("Auth:Key");
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authKey)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddScoped<ITokenService, TokenService>(x => new TokenService(authKey));
+
+            #endregion
+
             #region Validators
+
             services.AddScoped<IValidator<User>, UserValidator>();
-            services.AddScoped<IValidator<Property>, PropertyValidator>();
+            services.AddScoped<IValidator<CreateUserRequest>, CreateUserValidator>();
+            services.AddScoped<IValidator<CreatePropertyRequest>, CreatePropertyValidator>();
+            services.AddScoped<IValidator<EditPropertyRequest>, EditPropertyValidator>();
+
             #endregion
 
             #region Database
+
             var connection = Configuration["MySql:MySqlConnectionString"];
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
             services.AddDbContextPool<AppDbContext>(options => 
             {
                 options.UseMySql(connection, serverVersion, b => b.MigrationsAssembly("Immobilier.Host"));
             });
+
             #endregion
 
             services.AddSwaggerGen(c =>
@@ -69,6 +110,7 @@ namespace ImmobilierHost
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

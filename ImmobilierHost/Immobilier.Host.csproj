@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -17,9 +18,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\Immobilier.DataAccess\Immobilier.DataAccess.csproj" />
+    <ProjectReference Include="..\DataAccess\Immobilier.Infrastructure\Immobilier.Infrastructure.csproj" />
     <ProjectReference Include="..\Domain\Immobilier.Domain\Immobilier.Domain.csproj" />
     <ProjectReference Include="..\Immobilier.Interfaces\Immobilier.Interfaces.csproj" />
-    <ProjectReference Include="..\Services\Immobilier.Services\Immobilier.Services.csproj" />
   </ItemGroup>
 
 </Project>

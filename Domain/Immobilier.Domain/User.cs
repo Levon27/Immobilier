@@ -5,11 +5,12 @@ namespace Immobilier.Domain
 {
     public class User
     {
-        public User(string name, string email, int age)
+        public User(string name, string password, string email, int age)
         {
             Name = name;
             Email = email;
             Age = age;
+            Password = password;
         }
 
         [Key]
@@ -17,6 +18,9 @@ namespace Immobilier.Domain
 
         [Column("NAME")]
         public string Name { get; set; }
+
+        [Column("PASSWORD")]
+        public string Password { get; set; }
 
         [Column("EMAIL")] 
         public string Email { get; set; }

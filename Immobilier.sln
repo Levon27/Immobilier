@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Immobilier.Host", "Immobili
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{58CABB59-2CE9-4F80-9215-DF6A8DB0B1E2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{9FBB8882-9C9F-488A-BEEC-AD706E378349}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9FBB8882-9C9F-488A-BEEC-AD706E378349}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Immobilier.DataAccess", "DataAccess\Immobilier.DataAccess\Immobilier.DataAccess.csproj", "{130E7370-2823-4DEE-B014-32403B98968D}"
 EndProject
@@ -15,17 +15,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{BFD301
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Immobilier.Domain", "Domain\Immobilier.Domain\Immobilier.Domain.csproj", "{90C70FE8-5C36-48D8-8E83-DEFFFCBE6DA9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{F7A3F4EB-D5F5-4C6E-83E8-789474C8C31F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface - remover", "Interface - remover", "{F7A3F4EB-D5F5-4C6E-83E8-789474C8C31F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Immobilier.Interfaces", "Immobilier.Interfaces\Immobilier.Interfaces.csproj", "{D5E96F89-48F8-4AB5-91B9-5DC843393A7D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{4109136F-9BCF-40D7-96E3-A2E9FA50AC90}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Immobilier.Services", "Services\Immobilier.Services\Immobilier.Services.csproj", "{19C45442-3E34-4D5E-9760-741C55AC4F2C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{ACC81657-DE39-4B7A-AEDA-C1B775D26923}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imobbilier.Core", "Core\Imobbilier.Core\Imobbilier.Core.csproj", "{BC0929BC-E76D-436C-B1A4-FADF9EF1F2A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imobbilier.Core", "Core\Imobbilier.Core\Imobbilier.Core.csproj", "{BC0929BC-E76D-436C-B1A4-FADF9EF1F2A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Immobilier.Infrastructure", "DataAccess\Immobilier.Infrastructure\Immobilier.Infrastructure.csproj", "{165A3FDA-C303-44ED-8F85-CCAB0E5616D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,14 +47,14 @@ Global
 		{D5E96F89-48F8-4AB5-91B9-5DC843393A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5E96F89-48F8-4AB5-91B9-5DC843393A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5E96F89-48F8-4AB5-91B9-5DC843393A7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19C45442-3E34-4D5E-9760-741C55AC4F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19C45442-3E34-4D5E-9760-741C55AC4F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19C45442-3E34-4D5E-9760-741C55AC4F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19C45442-3E34-4D5E-9760-741C55AC4F2C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC0929BC-E76D-436C-B1A4-FADF9EF1F2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC0929BC-E76D-436C-B1A4-FADF9EF1F2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC0929BC-E76D-436C-B1A4-FADF9EF1F2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC0929BC-E76D-436C-B1A4-FADF9EF1F2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{165A3FDA-C303-44ED-8F85-CCAB0E5616D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{165A3FDA-C303-44ED-8F85-CCAB0E5616D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{165A3FDA-C303-44ED-8F85-CCAB0E5616D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{165A3FDA-C303-44ED-8F85-CCAB0E5616D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,8 +64,8 @@ Global
 		{130E7370-2823-4DEE-B014-32403B98968D} = {9FBB8882-9C9F-488A-BEEC-AD706E378349}
 		{90C70FE8-5C36-48D8-8E83-DEFFFCBE6DA9} = {BFD3011E-E28E-4054-940C-24220CC5FE19}
 		{D5E96F89-48F8-4AB5-91B9-5DC843393A7D} = {F7A3F4EB-D5F5-4C6E-83E8-789474C8C31F}
-		{19C45442-3E34-4D5E-9760-741C55AC4F2C} = {4109136F-9BCF-40D7-96E3-A2E9FA50AC90}
 		{BC0929BC-E76D-436C-B1A4-FADF9EF1F2A3} = {ACC81657-DE39-4B7A-AEDA-C1B775D26923}
+		{165A3FDA-C303-44ED-8F85-CCAB0E5616D8} = {9FBB8882-9C9F-488A-BEEC-AD706E378349}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9A5D8C2-AA23-4BDA-9590-FD0D8965AB89}

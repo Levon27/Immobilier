@@ -6,10 +6,11 @@ namespace Immobilier.DataAccess.Repository.Contracts
 {
     public interface IUserRepository
     {
-        ulong CreateUser(User newUser);
+        ulong CreateUser(string name, string email, string password, int age);
         Task<User?> GetUserById(ulong userId);
+        Task<User?> GetAuthenticatedUser(string email, string password);
         Task<User?> GetUserByEmail(string email);
         Task<IEnumerable<User>> GetAllUsers();
-        Task<User?> UpdateUser(User user);
+        Task<User?> UpdateUser(ulong id, string name, string email, uint age);
     }
 }

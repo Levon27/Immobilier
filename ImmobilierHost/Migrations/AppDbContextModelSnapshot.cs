@@ -65,6 +65,11 @@ namespace Immobilier.Host.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("NAME");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("PASSWORD");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");

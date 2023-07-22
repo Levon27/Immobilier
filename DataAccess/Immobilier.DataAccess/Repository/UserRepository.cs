@@ -16,10 +16,13 @@ namespace Immobilier.DataAccess.Repository
             _context = context;
         }
 
-        public ulong CreateUser(User user)
+        public ulong CreateUser(string name, string email, string password, int age)
         {
-            var newUser = _context.Users.Add(user).Entity;
+            var userToCreate = new User(name, password, email, age);
+            var newUser = _context.Users.Add(userToCreate).Entity;
+
             _context.SaveChanges();
+
             return newUser.Id;
         }
 
@@ -33,22 +36,26 @@ namespace Immobilier.DataAccess.Repository
             return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == userId);
         }
 
+        public async Task<User?> GetAuthenticatedUser(string email, string password)
+        {
+            return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
+        }
+
         public async Task<User?> GetUserByEmail(string email)
         {
             return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<User?> UpdateUser(User user)
+        public async Task<User?> UpdateUser(ulong id, string name, string email, uint age)
         {
-            var userToEdit = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            var userToEdit = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (userToEdit == null) return null;
 
-            userToEdit.Name = user.Name;
-            userToEdit.Age = user.Age;
+            userToEdit.Name = name;
+            userToEdit.Age = (int)age;
             _context.SaveChanges();
 
             return userToEdit;
         }
-
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Immobilier.Host.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230621224734_Initialize")]
+    [Migration("20230704221912_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,11 @@ namespace Immobilier.Host.Migrations
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("NAME");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("PASSWORD");
 
                     b.HasKey("Id");
 

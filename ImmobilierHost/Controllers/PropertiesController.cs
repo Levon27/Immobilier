@@ -52,7 +52,7 @@ namespace Immobilier.Host.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(ulong propertyId) 
         {
-            if (propertyId ==  0) return BadRequest();
+            if (propertyId == 0) return BadRequest();
             var deleted = await  _propertyRepository.DeleteProperty(propertyId);
             return Ok(deleted);
         }
