@@ -1,27 +1,36 @@
 ﻿using FluentValidation;
+using Immobilier.DataAccess.Repository;
 using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
-using Immobilier.Interfaces.Requests;
+using Immobilier.Host.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Immobilier.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PropertiesController : ControllerBase
     {
         private readonly IPropertyRepository _propertyRepository;
-        private readonly IValidator<Property> _propertyValidator;
+        private readonly IUserRepository _userRepository;
+        private readonly IValidator<CreatePropertyRequest> _createPropertyValidator;
+        private readonly IValidator<EditPropertyRequest> _editPropertyValidator;
 
-        public PropertiesController(IPropertyRepository propertyRepository, IValidator<Property> propertyValidator)
+        public PropertiesController(IPropertyRepository propertyRepository, IValidator<CreatePropertyRequest> createPropertyValidator, IValidator<EditPropertyRequest> editPropertyValidator, IUserRepository userRepository)
         {
             _propertyRepository = propertyRepository;
-            _propertyValidator = propertyValidator;
+            _createPropertyValidator = createPropertyValidator;
+            _editPropertyValidator = editPropertyValidator;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var result = await _propertyRepository.GetAll();
@@ -29,6 +38,7 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(ulong id)
         {
             var user = await _propertyRepository.GetById(id);
@@ -38,15 +48,18 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Property property)
+        public async Task<IActionResult> Post(CreatePropertyRequest request)
         {
-            if (property == null) return BadRequest();
-            var result = _propertyValidator.Validate(property);
-            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+            if (request == null) return BadRequest();
+            var result = _createPropertyValidator.Validate(request);
 
-            _propertyRepository.CreateProperty(new Property(property.Name, property.Address, property.IdOwner));
+            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+            var owner = await _userRepository.GetUserByEmail(GetEmailFromToken());
+            if (owner == null) return NotFound();
+
+            var created = _propertyRepository.CreateProperty(new Property(request.Name, request.Address, owner.Id));
  
-            return Ok();
+            return Ok(created);
         }
 
         [HttpDelete]
@@ -58,20 +71,27 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpPut()]
-        public async Task<IActionResult> Put(Property property)
+        public async Task<IActionResult> Put(EditPropertyRequest request)
         {
-            if (property == null) return BadRequest();
-            var result = _propertyValidator.Validate(property);
+            if (request == null) return BadRequest();
+            var result = _editPropertyValidator.Validate(request);
             if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
-            var propertyToEdit = await _propertyRepository.GetById(property.Id);
+            var propertyToEdit = await _propertyRepository.GetById(request.Id);
             if (propertyToEdit == null) return NotFound();
 
-            propertyToEdit.Name = property.Name;
-            propertyToEdit.Address = property.Address;
+            propertyToEdit.Name = request.Name;
+            propertyToEdit.Address = request.Address;
 
             return Ok();
         }
 
+        private string GetEmailFromToken()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity == null) return null;
+            
+            return identity.FindFirst(ClaimTypes.Email).Value; 
+        }
     }
 }

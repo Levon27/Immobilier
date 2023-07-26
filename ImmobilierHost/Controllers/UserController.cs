@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Immobilier.DataAccess.Repository.Contracts;
-using Immobilier.Domain;
+using Immobilier.Host.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Immobilier.Host.Controllers
@@ -12,12 +12,12 @@ namespace Immobilier.Host.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IValidator<User> _userValidator;
+        private readonly IValidator<CreateUserRequest> _createUserValidator;
 
-        public UserController(IUserRepository userRepository, IValidator<User> createUserValidator)
+        public UserController(IUserRepository userRepository, IValidator<CreateUserRequest> createUserValidator)
         {
             _userRepository = userRepository;
-            _userValidator = createUserValidator;
+            _createUserValidator = createUserValidator;
         }
 
         [HttpGet]
@@ -28,6 +28,7 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetById(ulong id)
         {
             var user = _userRepository.GetUserById(id);
@@ -37,24 +38,24 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(User user)
+        public IActionResult Post(CreateUserRequest request)
         {
-            if (user == null) return BadRequest();
-            var result = _userValidator.Validate(user);
-            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+            if (request == null) return BadRequest();
+            //var result = _createUserValidator.Validate(request);
+            //if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
-            var id = _userRepository.CreateUser(user);
+            var id = _userRepository.CreateUser(request.Name, request.Email, request.Password, request.Age);
             return Ok(new { Id = id });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(User user)
+        public async Task<IActionResult> Put(EditUserRequest request)
         {
-            if (user == null) return BadRequest();
-            var result = _userValidator.Validate(user);
-            if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+            if (request == null) return BadRequest();
+            //var result = _userValidator.Validate(user);
+            //if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
-            var updatedUser = await _userRepository.UpdateUser(user);
+            var updatedUser = await _userRepository.UpdateUser(request.Id, request.Name, request.Email, request.Age);
             return Ok(new { updatedUser.Id });
         }
     }
