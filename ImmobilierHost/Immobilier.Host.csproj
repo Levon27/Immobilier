@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>annotations</Nullable>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
@@ -20,7 +22,6 @@
     <ProjectReference Include="..\DataAccess\Immobilier.DataAccess\Immobilier.DataAccess.csproj" />
     <ProjectReference Include="..\DataAccess\Immobilier.Infrastructure\Immobilier.Infrastructure.csproj" />
     <ProjectReference Include="..\Domain\Immobilier.Domain\Immobilier.Domain.csproj" />
-    <ProjectReference Include="..\Immobilier.Interfaces\Immobilier.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
