@@ -2,7 +2,7 @@
 
 namespace Immobilier.Host.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class HealthController : ControllerBase
     {
