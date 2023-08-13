@@ -36,6 +36,7 @@ namespace ImmobilierHost
         {
 
             services.AddControllers();
+            services.AddHealthChecks();
 
             #region Services and Repos
 
@@ -83,10 +84,9 @@ namespace ImmobilierHost
             #region Database
 
             var connection = Configuration["MySql:MySqlConnectionString"];
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
             services.AddDbContextPool<AppDbContext>(options => 
             {
-                options.UseMySql(connection, serverVersion, b => b.MigrationsAssembly("Immobilier.Host"));
+                options.UseNpgsql(connection, b => b.MigrationsAssembly("Immobilier.Host"));
             });
 
             #endregion

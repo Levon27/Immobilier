@@ -13,6 +13,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /App
 COPY --from=build-env /App/out .
 
-#ENTRYPOINT ["dotnet", "Immobilier.Host.dll"]
-# Heroku dynamic port
-CMD ASPNETCORE_URLS="http://*:$PORT" dotnet Immobilier.Host.dll
+ENTRYPOINT ["dotnet", "Immobilier.Host.dll"]
