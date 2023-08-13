@@ -4,40 +4,44 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Immobilier.Host.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230704221912_Initialize")]
+    [Migration("20230813013928_Initialize")]
     partial class Initialize
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Immobilier.Domain.Property", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<decimal>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
+                        .HasColumnType("numeric(20,0)");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("ADDRESS");
 
-                    b.Property<ulong>("IdOwner")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<decimal>("IdOwner")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnName("ID_OWNER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("NAME");
 
                     b.HasKey("Id");
@@ -49,27 +53,27 @@ namespace Immobilier.Host.Migrations
 
             modelBuilder.Entity("Immobilier.Domain.User", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<decimal>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
+                        .HasColumnType("numeric(20,0)");
 
                     b.Property<int>("Age")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("AGE");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("EMAIL");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("NAME");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("PASSWORD");
 
                     b.HasKey("Id");
