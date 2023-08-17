@@ -1,13 +1,13 @@
 using FluentValidation;
-using Immobilier.DataAccess.Config;
-using Immobilier.DataAccess.Repository;
-using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
 using Immobilier.Domain.Validators;
 using Immobilier.Host.Requests;
 using Immobilier.Host.Validators;
 using Immobilier.Infrastructure.Auth;
 using Immobilier.Infrastructure.Auth.Contracts;
+using Immobilier.Infrastructure.Config;
+using Immobilier.Infrastructure.Repository;
+using Immobilier.Infrastructure.Repository.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

@@ -1,6 +1,6 @@
-﻿using Immobilier.DataAccess.Repository.Contracts;
-using Immobilier.Host.Requests;
+﻿using Immobilier.Host.Requests;
 using Immobilier.Infrastructure.Auth.Contracts;
+using Immobilier.Infrastructure.Repository.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

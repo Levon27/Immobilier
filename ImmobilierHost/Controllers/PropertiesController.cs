@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using Immobilier.DataAccess.Repository;
-using Immobilier.DataAccess.Repository.Contracts;
 using Immobilier.Domain;
 using Immobilier.Host.Requests;
+using Immobilier.Infrastructure.Repository.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
