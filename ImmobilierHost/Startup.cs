@@ -83,7 +83,9 @@ namespace ImmobilierHost
 
             #region Database
 
-            var connection = Configuration["MySql:MySqlConnectionString"];
+            var connection = Configuration["PostgreSql:PostgreSqlConnectionString"];
+            Console.WriteLine(connection);
+
             services.AddDbContextPool<AppDbContext>(options => 
             {
                 options.UseNpgsql(connection, b => b.MigrationsAssembly("Immobilier.Host"));
@@ -117,6 +119,9 @@ namespace ImmobilierHost
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
     }
 }

@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\Immobilier.Infrastructure\Immobilier.Infrastructure.csproj" />
     <ProjectReference Include="..\Domain\Immobilier.Domain\Immobilier.Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\Immobilier.Infrastructure\Immobilier.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

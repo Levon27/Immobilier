@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Immobilier.Host.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230814143115_Initialize")]
+    [Migration("20230924230721_Initialize")]
     partial class Initialize
     {
         /// <inheritdoc />
