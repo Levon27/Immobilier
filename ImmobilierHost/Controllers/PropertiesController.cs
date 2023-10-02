@@ -62,7 +62,7 @@ namespace Immobilier.Host.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(ulong propertyId) 
+        public async Task<IActionResult> Delete(uint propertyId) 
         {
             if (propertyId == 0) return BadRequest();
             var deleted = await  _propertyRepository.DeleteProperty(propertyId);

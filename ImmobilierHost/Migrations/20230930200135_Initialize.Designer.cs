@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Immobilier.Host.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230924230721_Initialize")]
+    [Migration("20230930200135_Initialize")]
     partial class Initialize
     {
         /// <inheritdoc />
@@ -26,17 +26,19 @@ namespace Immobilier.Host.Migrations
 
             modelBuilder.Entity("Immobilier.Domain.Property", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric(20,0)");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ADDRESS");
 
-                    b.Property<decimal>("IdOwner")
-                        .HasColumnType("numeric(20,0)")
+                    b.Property<long>("IdOwner")
+                        .HasColumnType("bigint")
                         .HasColumnName("ID_OWNER");
 
                     b.Property<string>("Name")
@@ -53,9 +55,11 @@ namespace Immobilier.Host.Migrations
 
             modelBuilder.Entity("Immobilier.Domain.User", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric(20,0)");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<int>("Age")
                         .HasColumnType("integer")

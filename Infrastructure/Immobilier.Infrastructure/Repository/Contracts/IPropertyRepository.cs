@@ -1,6 +1,4 @@
 ﻿using Immobilier.Domain;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Immobilier.Infrastructure.Repository.Contracts
 {
@@ -8,7 +6,7 @@ namespace Immobilier.Infrastructure.Repository.Contracts
     {
         Task<IEnumerable<Property>> GetAll();
         Task<Property?> GetById(ulong id);
-        ulong CreateProperty(Property property);
-        Task<ulong> DeleteProperty(ulong id);
+        uint CreateProperty(Property property);
+        Task<ulong> DeleteProperty(uint id);
     }
 }

@@ -14,7 +14,7 @@ namespace Immobilier.Domain
         }
 
         [Key]
-        public ulong Id { get; set; }
+        public uint Id { get; set; }
 
         [Column("NAME")]
         public string Name { get; set; }

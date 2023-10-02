@@ -2,8 +2,6 @@
 using Immobilier.Infrastructure.Config;
 using Immobilier.Infrastructure.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Immobilier.Infrastructure.Repository
 {
@@ -26,14 +24,14 @@ namespace Immobilier.Infrastructure.Repository
             return await _context.Properties.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }
 
-        public ulong CreateProperty(Property property)
+        public uint CreateProperty(Property property)
         {
             var created = _context.Properties.Add(property).Entity;
             _context.SaveChanges();
             return created.Id;
         }
 
-        public async Task<ulong> DeleteProperty(ulong id)
+        public async Task<ulong> DeleteProperty(uint id)
         {
             var toRemove = await _context.Properties.SingleOrDefaultAsync(p => p.Id == id);
             _context.Properties.Remove(toRemove);

@@ -5,7 +5,7 @@ namespace Immobilier.Domain
 {
     public class Property
     {
-        public Property(string name, string address, ulong idOwner)
+        public Property(string name, string address, uint idOwner)
         {
             Name = name;
             Address = address;
@@ -13,7 +13,7 @@ namespace Immobilier.Domain
         }
 
         [Key]
-        public ulong Id { get; set; }
+        public uint Id { get; set; }
 
         [Column("NAME")]
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Immobilier.Domain
         public string Address { get; set; }
 
         [Column("ID_OWNER")]
-        public ulong IdOwner { get; set; }
+        public uint IdOwner { get; set; }
 
         [ForeignKey(nameof(IdOwner))]
         public User? Owner { get; set; }

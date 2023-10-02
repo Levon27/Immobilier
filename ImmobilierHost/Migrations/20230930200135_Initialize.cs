@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -14,7 +15,8 @@ namespace Immobilier.Host.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NAME = table.Column<string>(type: "text", nullable: false),
                     PASSWORD = table.Column<string>(type: "text", nullable: false),
                     EMAIL = table.Column<string>(type: "text", nullable: false),
@@ -29,10 +31,11 @@ namespace Immobilier.Host.Migrations
                 name: "Properties",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NAME = table.Column<string>(type: "text", nullable: false),
                     ADDRESS = table.Column<string>(type: "text", nullable: false),
-                    ID_OWNER = table.Column<decimal>(type: "numeric(20,0)", nullable: false)
+                    ID_OWNER = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
