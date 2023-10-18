@@ -125,7 +125,7 @@ namespace ImmobilierHost
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors();
+            app.UseCors("_myPolicy");
 
             app.UseEndpoints(endpoints =>
             {
