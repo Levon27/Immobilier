@@ -94,7 +94,7 @@ namespace ImmobilierHost
 
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(
+                options.AddPolicy("_myPolicy",
                     policy => {
                         policy.AllowAnyOrigin()
                             .AllowAnyHeader()
@@ -124,6 +124,8 @@ namespace ImmobilierHost
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
