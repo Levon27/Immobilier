@@ -84,7 +84,6 @@ namespace ImmobilierHost
             #region Database
 
             var connection = Configuration["PostgreSql:PostgreSqlConnectionString"];
-            Console.WriteLine(connection);
 
             services.AddDbContextPool<AppDbContext>(options => 
             {
@@ -92,6 +91,16 @@ namespace ImmobilierHost
             });
 
             #endregion
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    policy => {
+                        policy.AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -119,9 +128,6 @@ namespace ImmobilierHost
             {
                 endpoints.MapControllers();
             });
-
-            app.UseSwagger();
-            app.UseSwaggerUI();
         }
     }
 }
