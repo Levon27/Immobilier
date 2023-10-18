@@ -96,7 +96,8 @@ namespace ImmobilierHost
             {
                 options.AddDefaultPolicy(
                     policy => {
-                        policy.AllowAnyHeader()
+                        policy.AllowAnyOrigin()
+                            .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                     });
