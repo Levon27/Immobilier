@@ -14,9 +14,9 @@ namespace Immobilier.Infrastructure.Repository
             _context = context;
         }
 
-        public uint CreateUser(string name, string email, string password, int age)
+        public uint CreateUser(string name, string email, string password)
         {
-            var userToCreate = new User(name, password, email, age);
+            var userToCreate = new User(name, password, email);
             var newUser = _context.Users.Add(userToCreate).Entity;
 
             _context.SaveChanges();
@@ -44,13 +44,12 @@ namespace Immobilier.Infrastructure.Repository
             return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<User?> UpdateUser(uint id, string name, string email, uint age)
+        public async Task<User?> UpdateUser(uint id, string name, string email)
         {
             var userToEdit = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (userToEdit == null) return null;
 
             userToEdit.Name = name;
-            userToEdit.Age = (int)age;
             _context.SaveChanges();
 
             return userToEdit;

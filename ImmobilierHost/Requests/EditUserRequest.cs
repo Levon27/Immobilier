@@ -1,4 +1,4 @@
 ﻿namespace Immobilier.Host.Requests
 {
-    public record EditUserRequest(uint Id, string Name, string Email, uint Age);
+    public record EditUserRequest(uint Id, string Name, string Email);
 }

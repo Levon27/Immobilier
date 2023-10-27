@@ -58,10 +58,6 @@ namespace Immobilier.Host.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("Age")
-                        .HasColumnType("integer")
-                        .HasColumnName("AGE");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text")

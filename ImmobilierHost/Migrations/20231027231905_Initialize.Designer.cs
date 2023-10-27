@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Immobilier.Host.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230930200135_Initialize")]
+    [Migration("20231027231905_Initialize")]
     partial class Initialize
     {
         /// <inheritdoc />
@@ -60,10 +60,6 @@ namespace Immobilier.Host.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<int>("Age")
-                        .HasColumnType("integer")
-                        .HasColumnName("AGE");
 
                     b.Property<string>("Email")
                         .IsRequired()

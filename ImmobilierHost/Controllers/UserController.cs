@@ -48,7 +48,7 @@ namespace Immobilier.Host.Controllers
             var alreadyCreated = (await _userRepository.GetUserByEmail(request.Email)) != null;
             if (alreadyCreated) return BadRequest($"User with e-mail {request.Email} already exists!");
 
-            var id = _userRepository.CreateUser(request.Name, request.Email, request.Password, request.Age);
+            var id = _userRepository.CreateUser(request.Name, request.Email, request.Password);
             return Ok(new { Id = id });
         }
 
@@ -59,7 +59,7 @@ namespace Immobilier.Host.Controllers
             //var result = _userValidator.Validate(user);
             //if (!result.IsValid) return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
-            var updatedUser = await _userRepository.UpdateUser(request.Id, request.Name, request.Email, request.Age);
+            var updatedUser = await _userRepository.UpdateUser(request.Id, request.Name, request.Email);
             return Ok(new { updatedUser.Id });
         }
     }

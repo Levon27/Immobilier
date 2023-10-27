@@ -8,7 +8,6 @@ namespace Immobilier.Host.Validators
     {
         public CreateUserValidator()
         {
-            RuleFor(x => x.Age).GreaterThanOrEqualTo(18);
             RuleFor(x => x.Name).MinimumLength(2);
             RuleFor(x => x.Email).Must(EmailUtils.IsEmailValid);
         }

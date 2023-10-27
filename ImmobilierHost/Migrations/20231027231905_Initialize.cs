@@ -19,8 +19,7 @@ namespace Immobilier.Host.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NAME = table.Column<string>(type: "text", nullable: false),
                     PASSWORD = table.Column<string>(type: "text", nullable: false),
-                    EMAIL = table.Column<string>(type: "text", nullable: false),
-                    AGE = table.Column<int>(type: "integer", nullable: false)
+                    EMAIL = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
